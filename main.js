@@ -2,6 +2,16 @@ let player;
 let playPauseIcon = document.getElementById('playPauseIcon');
 let isPlaying = true;
 
+// Array of video objects with IDs and starting times
+var videos = [
+  { id: 'U0G5OA6ZH5w', start: 25 }, // Provided Video ID
+  { id: '9t57C7NcjWo', start: 10 },
+  { id: 'Z_BhMhZpAug', start: 0 },
+  { id: '2NArH91kHoQ', start: 10 }
+];
+
+var currentIndex = 0;
+
 // Dynamically load YouTube Iframe API
 function loadYouTubeIframeAPI() {
   const tag = document.createElement('script');
@@ -15,14 +25,15 @@ window.onYouTubeIframeAPIReady = function () {
   player = new YT.Player('player', {
     height: '157.5',
     width: '280',
-    videoId: 'U0G5OA6ZH5w',
+    videoId: videos[currentIndex].id,
     playerVars: {
       'autoplay': 1,
       'controls': 0,
-      'start': 25
+      'start': videos[currentIndex].start
     },
     events: {
-      'onReady': onPlayerReady
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
     }
   });
 }
@@ -72,6 +83,27 @@ function updateProgressBar() {
   var duration = player.getDuration();
   var progress = (currentTime / duration) * 100;
   document.getElementById('progress-bar-fill').style.width = progress + '%';
+}
+
+// Function called when the player's state changes
+function onPlayerStateChange(event) {
+  // If the video ends, play the next video in the playlist
+  if (event.data == YT.PlayerState.ENDED) {
+    currentIndex++;
+    if (currentIndex < videos.length) {
+      player.loadVideoById({
+        videoId: videos[currentIndex].id,
+        startSeconds: videos[currentIndex].start
+      });
+    } else {
+      // If all videos have been played, loop back to the beginning
+      currentIndex = 0;
+      player.loadVideoById({
+        videoId: videos[currentIndex].id,
+        startSeconds: videos[currentIndex].start
+      });
+    }
+  }
 }
 
 // Load YouTube Iframe API when the DOM content is loaded
