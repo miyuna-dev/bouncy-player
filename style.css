@@ -3,9 +3,8 @@
 body {
   font-family: 'Roboto', sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  /* justify-content: center; */
+  /* align-items: center; */
   margin: 0;
 }
 
@@ -74,7 +73,7 @@ iframe {
   width: 100px;
   height: 20px;
   transform: rotate(-90deg);
-  top: 370px;
+  top: 108px;
   display: none;
   /* Adjust the value to move it higher */
 }
