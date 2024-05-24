@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Media Player</title>
+  <title>ATEEZ Player</title>
   <!-- Font Awesome CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Custom CSS -->
@@ -18,11 +18,17 @@
       <button class="control-btn" id="playPauseBtn" onclick="togglePlayPause()">
         <i id="playPauseIcon" class="fas fa-pause"></i>
       </button>
+      <button class="control-btn" id="muteBtn">
+        <i id="muteIcon" class="fas fa-volume-up"></i>
+        <div class="volume-slider" id="volumeSlider">
+          <input type="range" min="0" max="100" value="100" class="slider" id="volumeRange">
+        </div>
+      </button>
       <div class="progress-bar">
         <div class="progress-bar-fill" id="progress-bar-fill"></div>
       </div>
-      <button class="control-btn" id="muteBtn" onclick="toggleMute()">
-        <i id="muteIcon" class="fas fa-volume-up"></i>
+      <button class="control-btn" id="nextBtn">
+        <i class="fas fa-play-circle"></i>
       </button>
     </div>
   </div>

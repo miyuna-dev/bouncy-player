@@ -1,6 +1,10 @@
 let player;
 let playPauseIcon = document.getElementById('playPauseIcon');
 let isPlaying = true;
+let muteBtn = document.getElementById('muteBtn');
+let volumeSlider = document.getElementById('volumeSlider');
+let volumeRange = document.getElementById('volumeRange');
+let nextBtn = document.getElementById('nextBtn');
 
 // Array of video objects with IDs and starting times
 var videos = [
@@ -52,6 +56,44 @@ function onPlayerReady(event) {
   document.getElementById('player').addEventListener('click', function () {
     togglePlayPause();
   });
+
+  // Toggle volume slider visibility on mute button hover
+  muteBtn.addEventListener('mouseover', function () {
+    volumeSlider.style.display = 'block';
+  });
+
+  muteBtn.addEventListener('mouseleave', function () {
+    volumeSlider.style.display = 'none';
+  });
+
+  // Prevent volume slider from hiding when interacting with it
+  volumeSlider.addEventListener('mouseover', function () {
+    volumeSlider.style.display = 'block';
+  });
+
+  volumeSlider.addEventListener('mouseleave', function () {
+    volumeSlider.style.display = 'none';
+  });
+
+  // Adjust volume when slider value changes
+  volumeRange.addEventListener('input', function (event) {
+    event.stopPropagation(); // Prevent the event from bubbling up to the mute button
+    player.setVolume(event.target.value);
+  });
+
+  // Prevent click on volumeRange from toggling mute
+  volumeRange.addEventListener('mousedown', function (event) {
+    event.stopPropagation();
+  });
+
+  volumeRange.addEventListener('click', function (event) {
+    event.stopPropagation();
+  });
+
+  // Add event listener for next button click
+  nextBtn.addEventListener('click', function () {
+    nextVideo();
+  });
 }
 
 function togglePlayPause() {
@@ -85,26 +127,30 @@ function updateProgressBar() {
   document.getElementById('progress-bar-fill').style.width = progress + '%';
 }
 
-// Function called when the player's state changes
 function onPlayerStateChange(event) {
   // If the video ends, play the next video in the playlist
   if (event.data == YT.PlayerState.ENDED) {
-    currentIndex++;
-    if (currentIndex < videos.length) {
-      player.loadVideoById({
-        videoId: videos[currentIndex].id,
-        startSeconds: videos[currentIndex].start
-      });
-    } else {
-      // If all videos have been played, loop back to the beginning
-      currentIndex = 0;
-      player.loadVideoById({
-        videoId: videos[currentIndex].id,
-        startSeconds: videos[currentIndex].start
-      });
-    }
+    nextVideo();
   }
 }
+
+function nextVideo() {
+  currentIndex++;
+  if (currentIndex < videos.length) {
+    player.loadVideoById({
+      videoId: videos[currentIndex].id,
+      startSeconds: videos[currentIndex].start
+    });
+  } else {
+    // If all videos have been played, loop back to the beginning
+    currentIndex = 0;
+    player.loadVideoById({
+      videoId: videos[currentIndex].id,
+      startSeconds: videos[currentIndex].start
+    });
+  }
+}
+
 
 // Load YouTube Iframe API when the DOM content is loaded
 document.addEventListener('DOMContentLoaded', loadYouTubeIframeAPI);
