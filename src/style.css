@@ -24,10 +24,13 @@ iframe {
 
 .controls {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 5px;
     background-color: #FCEEF3;
+    gap: 5px;
+    padding: 7px;
+    margin: 0 0 2px 1px;
 }
 
 .control-btn {
@@ -42,7 +45,6 @@ iframe {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 5px;
 }
 
 .control-btn:hover {

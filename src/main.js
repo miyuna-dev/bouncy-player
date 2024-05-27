@@ -8,10 +8,10 @@ let nextBtn = document.getElementById('nextBtn');
 
 // Array of video objects with IDs and starting times
 var videos = [
-  { id: 'U0G5OA6ZH5w', start: 25 }, // Provided Video ID
-  { id: '9t57C7NcjWo', start: 10 },
-  { id: 'Z_BhMhZpAug', start: 0 },
-  { id: '2NArH91kHoQ', start: 10 }
+  { id: 'U0G5OA6ZH5w', start: 25 }, // Bouncy
+  { id: '9t57C7NcjWo', start: 10 }, // Crazy Form
+  { id: 'Z_BhMhZpAug', start: 0 }, // Wonderland
+  { id: '2NArH91kHoQ', start: 10 } // Inception
 ];
 
 var currentIndex = 0;
@@ -33,7 +33,9 @@ window.onYouTubeIframeAPIReady = function () {
     playerVars: {
       'autoplay': 1,
       'controls': 0,
-      'start': videos[currentIndex].start
+      'start': videos[currentIndex].start,
+      'cc_load_policy': 1, // Force enable or disable captions
+      'hl': 'en' // Specify the language
     },
     events: {
       'onReady': onPlayerReady,
